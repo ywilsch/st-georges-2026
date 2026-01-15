@@ -170,6 +170,17 @@
             { date: "2026-03-25", event: "Term 1 Ends (12:00)", type: "Term" }
         ];
  */
+        // Initialize empty array for events
+        let prepCalendar2026 = [];
+        
+        // Fetch upcoming events JSON from GitHub
+        fetch('https://raw.githubusercontent.com/ywilsch/st-georges-2026/main/Administration/site/docs/upcoming-events.json')
+          .then(response => response.json())
+          .then(data => {
+            prepCalendar2026 = data;
+            console.log('Upcoming events loaded:', prepCalendar2026); // Optional, for debugging
+          })
+          .catch(err => console.error('Failed to load upcoming events:', err));
 
         const segments = [
             { startTime: "07:30", endTime: "07:55", time: "07:30 - 07:55", type: "merged", content: "Fitness Track", days: ["mon", "tue", "wed", "thu"], emptyFri: true, style: "text-slate-400 italic uppercase tracking-tighter" },

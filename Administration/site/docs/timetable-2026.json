@@ -1,21 +1,44 @@
 [
-  { "startTime": "07:30", "endTime": "07:55", "time": "07:30 - 07:55", "type": "merged", "content": "Fitness Track", "days": ["mon","tue","wed","thu"], "emptyFri": true, "style": "text-slate-400 italic uppercase tracking-tighter" },
-  { "startTime": "07:35", "endTime": "07:55", "time": "07:35 - 07:55", "type": "standard", "data": { "mon": "Staff Meeting", "tue": "", "wed": "Staff Meeting", "thu": "", "fri": "Staff Meeting" }, "meeting": true },
-  { "startTime": "07:55", "endTime": "08:00", "time": "07:55 - 08:00", "type": "merged", "content": "Register Class", "days": ["mon","tue","wed","thu","fri"], "style": "text-slate-300 font-semibold uppercase tracking-tighter" },
-  { "startTime": "08:00", "endTime": "08:30", "time": "08:00 - 08:30", "type": "standard", "data": { "mon": "7CC EMS", "tue": "", "wed": "7CW EMS", "thu": "", "fri": "" } },
-  { "startTime": "08:30", "endTime": "09:00", "time": "08:30 - 09:00", "type": "standard", "data": { "mon": "7CC EMS", "tue": "", "wed": "7CW EMS", "thu": "", "fri": "" } },
-  { "startTime": "09:00", "endTime": "09:30", "time": "09:00 - 09:30", "type": "standard", "data": { "mon": "", "tue": "IPLC", "wed": "6RE IT", "thu": "6NT IT", "fri": "" } },
-  { "startTime": "09:30", "endTime": "10:00", "time": "09:30 - 10:00", "type": "standard", "data": { "mon": "", "tue": "IPLC", "wed": "6RE IT", "thu": "6NT IT", "fri": "" } },
-  { "startTime": "10:00", "endTime": "10:25", "time": "10:00 - 10:25", "type": "standard", "data": { "mon": "IP BREAK", "tue": "IP BREAK", "wed": "IP BREAK", "thu": "1MJ IT", "fri": "IP BREAK" } },
-  { "startTime": "10:25", "endTime": "10:50", "time": "10:25 - 10:50", "type": "standard", "data": { "mon": "RLW IT", "tue": "6NT IT", "wed": "6RE CAT", "thu": "", "fri": "3NT IT" }, "isSpecial": true },
-  { "startTime": "10:50", "endTime": "11:15", "time": "10:50 - 11:15", "type": "standard", "data": { "mon": "", "tue": "6NT IT", "wed": "6RE CAT", "thu": "1AZ IT", "fri": "3NT IT" } },
-  { "startTime": "11:15", "endTime": "11:40", "time": "11:15 - 11:40", "type": "standard", "data": { "mon": "2JD IT", "tue": "", "wed": "7CC IT", "thu": "", "fri": "" } },
-  { "startTime": "11:40", "endTime": "12:05", "time": "11:40 - 12:05", "type": "standard", "data": { "mon": "", "tue": "4WP IT", "wed": "7CC IT", "thu": "7CW IT", "fri": "5ER IT" } },
-  { "startTime": "12:05", "endTime": "12:30", "time": "12:05 - 12:30", "type": "standard", "data": { "mon": "FP Break Duty (Megan)", "tue": "4WP IT", "wed": "Chapel", "thu": "7CW IT", "fri": "5ER IT" }, "isSpecial": true },
-  { "startTime": "12:30", "endTime": "12:55", "time": "12:30 - 12:55", "type": "standard", "data": { "mon": "3SJ IT", "tue": "IP BREAK", "wed": "IP Break Duty (Cameron)", "thu": "IP BREAK", "fri": "SCHOOL ENDS" } },
-  { "startTime": "12:55", "endTime": "13:25", "time": "12:55 - 13:25", "type": "standard", "data": { "mon": "3SJ IT", "tue": "Choir", "wed": "OLC IT", "thu": "", "fri": "" }, "isSpecial": true },
-  { "startTime": "13:25", "endTime": "13:55", "time": "13:25 - 13:55", "type": "standard", "data": { "mon": "5SN IT", "tue": "", "wed": "", "thu": "", "fri": "" } },
-  { "startTime": "13:55", "endTime": "14:25", "time": "13:55 - 14:25", "type": "standard", "data": { "mon": "5SN IT", "tue": "", "wed": "", "thu": "", "fri": "" } },
-  { "startTime": "14:25", "endTime": "14:30", "time": "14:25 - 14:30", "type": "standard", "data": { "mon": "SCHOOL ENDS", "tue": "SCHOOL ENDS", "wed": "FP Computer Club", "thu": "FP Computer Club", "fri": "" }, "schoolEndIP": true },
-  { "startTime": "14:30", "endTime": "15:15", "time": "14:30 - 15:15", "type": "standard", "data": { "mon": "EXTRA-MURALS", "tue": "EXTRA-MURALS", "wed": "IP Computer Club", "thu": "IP Computer Club", "fri": "" }, "isClubSlot": true }
+  {
+    "time": "07:30 – 07:55",
+    "startTime": "07:30",
+    "endTime": "07:55",
+    "type": "merged",
+    "content": "Morning Prep / Admin",
+    "days": ["mon","tue","wed","thu","fri"],
+    "style": "class-grade-olc"
+  },
+  {
+    "time": "08:00 – 08:45",
+    "startTime": "08:00",
+    "endTime": "08:45",
+    "type": "normal",
+    "mon": "Gr 7 EMS",
+    "tue": "Gr 6 IT",
+    "wed": "Gr 5 IT",
+    "thu": "Gr 7 EMS",
+    "fri": "Gr 4 IT",
+    "style": "class-grade-7"
+  },
+  {
+    "time": "08:45 – 09:30",
+    "startTime": "08:45",
+    "endTime": "09:30",
+    "type": "normal",
+    "mon": "Gr 6 IT",
+    "tue": "Gr 5 IT",
+    "wed": "Gr 4 IT",
+    "thu": "Gr 6 IT",
+    "fri": "Gr 3 IT",
+    "style": "class-grade-6"
+  },
+  {
+    "time": "09:30 – 09:50",
+    "startTime": "09:30",
+    "endTime": "09:50",
+    "type": "merged",
+    "content": "BREAK",
+    "days": ["mon","tue","wed","thu","fri"],
+    "style": "break-cell-style"
+  }
 ]

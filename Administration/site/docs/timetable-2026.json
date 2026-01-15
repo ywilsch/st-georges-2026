@@ -1,1 +1,13 @@
+[
+  {
+    "startTime": "07:30",
+    "endTime": "07:55",
+    "time": "07:30 - 07:55",
+    "type": "merged",
+    "content": "Fitness Track",
+    "days": ["mon","tue","wed","thu"],
+    "emptyFri": true,
+    "style": "text-slate-400 italic uppercase tracking-tighter"
+  }
+]
 

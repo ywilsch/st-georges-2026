@@ -8,83 +8,95 @@
 
 <style>
 body { background:#0f172a; color:#e5e7eb; font-family:Inter,system-ui }
-.grid { display:grid; grid-template-columns:120px repeat(5,1fr); gap:1px; background:#1e293b }
-.cell { background:#111827; padding:6px; text-align:center; font-size:0.8rem }
-.header { background:#020617; font-weight:bold; color:#22d3ee }
+.grid { display:grid; grid-template-columns:120px repeat(5,1fr); background:#1e293b; gap:1px }
+.cell { background:#020617; padding:6px; text-align:center; font-size:0.8rem }
+.header { background:#020617; color:#22d3ee; font-weight:bold }
 .time { background:#020617; font-family:monospace }
-.active { outline:2px solid #22d3ee; box-shadow:0 0 15px #22d3ee55 }
-.break-cell-style { color:#fff; text-shadow:0 0 8px #a855f7; font-weight:bold }
+.break { grid-column:span 5; background:#312e81; color:white; font-weight:bold }
+.active { outline:2px solid #22d3ee; box-shadow:0 0 12px #22d3ee88 }
 </style>
 </head>
 
 <body class="p-6">
 
-<h1 class="text-2xl font-bold mb-4 text-cyan-400">
-St George’s Grammar — Live Timetable 2026
+<h1 class="text-xl font-bold mb-4 text-cyan-400">
+St George’s Grammar – Live Timetable 2026
 </h1>
 
-<div id="timetable" class="grid"></div>
+<div id="grid" class="grid"></div>
 
 <script>
-const timetableURL =
+const lessonsURL =
 'https://raw.githubusercontent.com/ywilsch/st-georges-2026/main/Administration/site/docs/timetable-2026.json';
 
-let segments=[];
+const rows = [
+  { time:"07:30–07:55", start:"07:30", end:"07:55", type:"prep" },
+  { time:"08:00–08:45", start:"08:00", end:"08:45" },
+  { time:"08:45–09:30", start:"08:45", end:"09:30" },
+  { time:"09:30–09:50", type:"break", label:"BREAK" },
+  { time:"09:50–10:35", start:"09:50", end:"10:35" },
+  { time:"10:35–11:20", start:"10:35", end:"11:20" },
+  { time:"11:20–12:05", start:"11:20", end:"12:05" }
+];
 
-fetch(timetableURL)
+const days = ["mon","tue","wed","thu","fri"];
+let lessons=[];
+
+fetch(lessonsURL)
 .then(r=>r.json())
 .then(data=>{
-  segments=data;
-  buildTable();
+  lessons=data;
+  build();
   setInterval(highlightNow,1000);
 });
 
-function buildTable(){
-  const t=document.getElementById('timetable');
-  const days=['TIME','MON','TUE','WED','THU','FRI'];
-  days.forEach(d=>t.innerHTML+=`<div class="cell header">${d}</div>`);
+function build(){
+  const g=document.getElementById('grid');
 
-  segments.forEach((s,i)=>{
-    t.innerHTML+=`<div class="cell time">${s.time}</div>`;
+  ["TIME","MON","TUE","WED","THU","FRI"].forEach(h=>{
+    g.innerHTML+=`<div class="cell header">${h}</div>`;
+  });
 
-    if(s.type==='merged'){
-      t.innerHTML+=`<div class="cell ${s.style}" style="grid-column:span 5" data-row="${i}">
-        ${s.content}
-      </div>`;
-    } else {
-      ['mon','tue','wed','thu','fri'].forEach(day=>{
-        t.innerHTML+=`<div class="cell ${s.style}" data-row="${i}" data-day="${day}">
-          ${s[day]||''}
-        </div>`;
-      });
+  rows.forEach((r,i)=>{
+    g.innerHTML+=`<div class="cell time">${r.time}</div>`;
+
+    if(r.type==="break"){
+      g.innerHTML+=`<div class="cell break" data-row="${i}">${r.label}</div>`;
+      return;
     }
+
+    days.forEach(d=>{
+      const lesson=lessons.find(l =>
+        l.day===d && l.start===r.start
+      );
+      g.innerHTML+=`
+        <div class="cell ${lesson?.style||""}"
+             data-row="${i}"
+             data-day="${d}"
+             data-start="${r.start}"
+             data-end="${r.end}">
+          ${lesson?.label||""}
+        </div>`;
+    });
   });
 }
 
 function highlightNow(){
   const now=new Date();
   const mins=now.getHours()*60+now.getMinutes();
-  const dayMap=['sun','mon','tue','wed','thu','fri','sat'];
+  const dayMap=["sun","mon","tue","wed","thu","fri","sat"];
   const today=dayMap[now.getDay()];
 
   document.querySelectorAll('.cell').forEach(c=>c.classList.remove('active'));
 
-  segments.forEach((s,i)=>{
-    const [sh,sm]=s.startTime.split(':').map(Number);
-    const [eh,em]=s.endTime.split(':').map(Number);
-    const start=sh*60+sm;
-    const end=eh*60+em;
-
-    if(mins>=start && mins<end){
-      document.querySelectorAll(`[data-row="${i}"]`).forEach(c=>{
-        if(!c.dataset.day || c.dataset.day===today){
-          c.classList.add('active');
-        }
-      });
+  document.querySelectorAll(`[data-day="${today}"]`).forEach(c=>{
+    const [sh,sm]=c.dataset.start.split(':').map(Number);
+    const [eh,em]=c.dataset.end.split(':').map(Number);
+    if(mins>=sh*60+sm && mins<eh*60+em){
+      c.classList.add('active');
     }
   });
 }
 </script>
 </body>
 </html>
-

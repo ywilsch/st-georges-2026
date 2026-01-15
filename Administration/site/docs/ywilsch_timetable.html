@@ -1,1 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Timetable 2026</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body { background:#0f172a; color:#e5e7eb; font-family:Inter,system-ui }
+.grid { display:grid; grid-template-columns:120px repeat(5,1fr); gap:1px; background:#1e293b }
+.cell { background:#111827; padding:6px; text-align:center; font-size:0.8rem }
+.header { background:#020617; font-weight:bold; color:#22d3ee }
+.time { background:#020617; font-family:monospace }
+.active { outline:2px solid #22d3ee; box-shadow:0 0 15px #22d3ee55 }
+.break-cell-style { color:#fff; text-shadow:0 0 8px #a855f7; font-weight:bold }
+</style>
+</head>
+
+<body class="p-6">
+
+<h1 class="text-2xl font-bold mb-4 text-cyan-400">
+St George’s Grammar — Live Timetable 2026
+</h1>
+
+<div id="timetable" class="grid"></div>
+
+<script>
+const timetableURL =
+'https://raw.githubusercontent.com/ywilsch/st-georges-2026/main/Administration/site/docs/timetable-2026.json';
+
+let segments=[];
+
+fetch(timetableURL)
+.then(r=>r.json())
+.then(data=>{
+  segments=data;
+  buildTable();
+  setInterval(highlightNow,1000);
+});
+
+function buildTable(){
+  const t=document.getElementById('timetable');
+  const days=['TIME','MON','TUE','WED','THU','FRI'];
+  days.forEach(d=>t.innerHTML+=`<div class="cell header">${d}</div>`);
+
+  segments.forEach((s,i)=>{
+    t.innerHTML+=`<div class="cell time">${s.time}</div>`;
+
+    if(s.type==='merged'){
+      t.innerHTML+=`<div class="cell ${s.style}" style="grid-column:span 5" data-row="${i}">
+        ${s.content}
+      </div>`;
+    } else {
+      ['mon','tue','wed','thu','fri'].forEach(day=>{
+        t.innerHTML+=`<div class="cell ${s.style}" data-row="${i}" data-day="${day}">
+          ${s[day]||''}
+        </div>`;
+      });
+    }
+  });
+}
+
+function highlightNow(){
+  const now=new Date();
+  const mins=now.getHours()*60+now.getMinutes();
+  const dayMap=['sun','mon','tue','wed','thu','fri','sat'];
+  const today=dayMap[now.getDay()];
+
+  document.querySelectorAll('.cell').forEach(c=>c.classList.remove('active'));
+
+  segments.forEach((s,i)=>{
+    const [sh,sm]=s.startTime.split(':').map(Number);
+    const [eh,em]=s.endTime.split(':').map(Number);
+    const start=sh*60+sm;
+    const end=eh*60+em;
+
+    if(mins>=start && mins<end){
+      document.querySelectorAll(`[data-row="${i}"]`).forEach(c=>{
+        if(!c.dataset.day || c.dataset.day===today){
+          c.classList.add('active');
+        }
+      });
+    }
+  });
+}
+</script>
+</body>
+</html>
 

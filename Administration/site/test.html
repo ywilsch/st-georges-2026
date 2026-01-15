@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>St. George's Grammar School | Live Timetable 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --neon-blue: #00d4ff;
+            --neon-purple: #bd00ff;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            /* Grade Colors */
+            --grade-7: #f87171;
+            --grade-r: #fbbf24;
+            --grade-1: #fb923c;
+            --grade-2: #4ade80;
+            --grade-3: #60a5fa;
+            --grade-4: #fb7185;
+            --grade-5: #a78bfa;
+            --grade-6: #2dd4bf;
+            --grade-iplc: #e879f9;
+            --grade-olc: #94a3b8;
+        }
+        body { background-color: var(--dark-bg); color: #f8fafc; font-family: 'Inter', sans-serif; height: 100vh; overflow: hidden; }
+        .neon-text { color: var(--neon-blue); text-shadow: 0 0 8px rgba(0, 212, 255, 0.3); }
+        .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .timetable-grid { display: grid; grid-template-columns: 130px repeat(5, 1fr); gap: 1px; background: rgba(255, 255, 255, 0.1); height: 100%; grid-template-rows: auto repeat(19, 1fr); }
+        .grid-header { background: var(--card-bg); padding: 0.5rem; text-align: center; font-weight: 600; color: var(--neon-blue); font-size: 0.8rem; }
+        .grid-cell { background: rgba(30, 41, 59, 0.5); padding: 0.2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; font-size: 0.8rem; position: relative; }
+        .active-cell { background: rgba(0, 212, 255, 0.15) !important; box-shadow: inset 0 0 15px rgba(0, 212, 255, 0.2); border: 1px solid rgba(0, 212, 255, 0.4); z-index: 10; }
+        .active-cell::after { content: "NOW"; position: absolute; top: 2px; right: 4px; font-size: 7px; font-weight: 800; color: var(--neon-blue); }
+        .time-cell { font-weight: 600; background: rgba(15, 23, 42, 0.8) !important; color: #94a3b8; font-family: monospace; }
+        
+        /* Grade Styling */
+        .class-grade-7 { color: var(--grade-7); font-weight: bold; border-left: 3px solid var(--grade-7); }
+        .class-grade-r { color: var(--grade-r); font-weight: bold; border-left: 3px solid var(--grade-r); }
+        .class-grade-1 { color: var(--grade-1); font-weight: bold; border-left: 3px solid var(--grade-1); }
+        .class-grade-2 { color: var(--grade-2); font-weight: bold; border-left: 3px solid var(--grade-2); }
+        .class-grade-3 { color: var(--grade-3); font-weight: bold; border-left: 3px solid var(--grade-3); }
+        .class-grade-4 { color: var(--grade-4); font-weight: bold; border-left: 3px solid var(--grade-4); }
+        .class-grade-5 { color: var(--grade-5); font-weight: bold; border-left: 3px solid var(--grade-5); }
+        .class-grade-6 { color: var(--grade-6); font-weight: bold; border-left: 3px solid var(--grade-6); }
+        .class-grade-iplc { color: var(--grade-iplc); font-weight: bold; border-left: 3px solid var(--grade-iplc); }
+        
+        .break-cell-style { color: #ffffff; text-shadow: 0 0 10px rgba(189, 0, 255, 0.8); border: 1px solid var(--neon-purple) !important; font-weight: bold; }
+        .side-panel { width: 300px; border-right: 1px solid rgba(255, 255, 255, 0.1); height: 100vh; }
+        .main-content { flex: 1; height: 100vh; display: flex; flex-direction: column; }
+    </style>
+</head>
+<body class="flex">
+
+    <aside class="side-panel glass-panel p-6 flex flex-col gap-4 flex-shrink-0">
+        <div class="brand">
+            <h1 class="text-2xl font-extrabold tracking-tight">ST. GEORGE'S<br><span class="neon-text">GRAMMAR</span></h1>
+            <p class="text-[9px] text-slate-500 mt-1 uppercase tracking-widest">H:\2026\Administration\site</p>
+        </div>
+
+        <div class="live-info space-y-1 py-4 border-y border-slate-800">
+            <p id="current-date" class="text-xs font-medium neon-text uppercase tracking-widest"></p>
+            <p id="current-time" class="text-4xl font-mono font-bold"></p>
+            <p id="school-week" class="text-[10px] text-slate-400 font-bold uppercase"></p>
+        </div>
+
+        <div class="teacher-info">
+            <h3 class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">Educator Profile</h3>
+            <p class="font-bold text-slate-200 text-sm">Mr. Y. Wilsch</p>
+            <p class="text-[11px] text-slate-400 leading-tight">IT Specialist Educator (Gr R-7)<br>Grade 7 EMS Teacher</p>
+        </div>
+
+        <div class="flex-1 overflow-hidden flex flex-col">
+            <h3 class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-2">Upcoming Events (Current & Next Week)</h3>
+            <div id="calendar-view" class="bg-slate-900/50 rounded-lg p-3 flex-1 overflow-y-auto border border-slate-800/50 text-[11px]">
+                <!-- Filtered Agenda Items -->
+            </div>
+            <div class="mt-2 bg-slate-900/30 p-2 rounded border-l-2 border-cyan-500/50">
+                <p id="live-status" class="text-[10px] text-slate-400 italic">Tracking Live Roster...</p>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="py-3 px-8 border-b border-slate-800 flex justify-between items-center bg-slate-900/30">
+            <h2 class="text-lg font-bold italic">Academic Timetable <span class="text-slate-500">2026</span></h2>
+            <div class="flex gap-4 text-[10px] font-bold uppercase tracking-widest">
+                <span class="text-green-400">? Live Connection</span>
+            </div>
+        </header>
+        <div class="flex-1 p-4 overflow-hidden">
+            <div class="rounded-xl overflow-hidden border border-slate-700 h-full">
+                <div class="timetable-grid" id="timetable-container">
+                    <div class="grid-header">TIME</div>
+                    <div class="grid-header">MONDAY</div>
+                    <div class="grid-header">TUESDAY</div>
+                    <div class="grid-header">WEDNESDAY</div>
+                    <div class="grid-header">THURSDAY</div>
+                    <div class="grid-header">FRIDAY</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Data derived from provided PDFs
+        const schoolEvents = [
+            { date: "2026-01-12", event: "Staff Return / Prep Meeting", type: "Staff" },
+            { date: "2026-01-14", event: "School Starts for Pupils", type: "Term" },
+            { date: "2026-01-19", event: "Athletics Training Begins", type: "Sport" },
+            { date: "2026-01-20", event: "Pre-Primary Parent Info", type: "Meeting" },
+            { date: "2026-01-21", event: "OLC Info Session", type: "Meeting" },
+            { date: "2026-01-22", event: "FP & IP Parent Info", type: "Meeting" },
+            { date: "2026-01-23", event: "Calendars Issued (Gr 4-7)", type: "Admin" },
+            { date: "2026-01-30", event: "PP & FP Athletics Gala", type: "Sport" },
+            { date: "2026-01-31", event: "IP Athletics & Field Events", type: "Sport" },
+            { date: "2026-02-04", event: "Grade 7 Camp Begins", type: "Camp" },
+            { date: "2026-02-06", event: "Gr R-4 Camp Out", type: "Camp" },
+            { date: "2026-02-11", event: "Grade 6 Camp Begins", type: "Camp" },
+            { date: "2026-02-13", event: "PP & FP Swimming Gala", type: "Sport" },
+            { date: "2026-02-16", event: "IP Swimming Gala", type: "Sport" },
+            { date: "2026-02-21", event: "Prep Open Day", type: "Event" },
+            { date: "2026-03-02", event: "Grade 7 NST Test", type: "Assessment" },
+            { date: "2026-03-04", event: "Grade 6 NST Test", type: "Assessment" },
+            { date: "2026-03-06", event: "Grade 5 NST Test", type: "Assessment" }
+        ];
+
+        // Break Roster Specifics
+        const breakDutyDates = {
+            megan: ["2026-01-19", "2026-01-21", "2026-02-02", "2026-02-04", "2026-02-16", "2026-02-18"],
+            cameron: ["2026-01-16", "2026-01-23", "2026-02-06", "2026-02-13"]
+        };
+
+        const segments = [
+            { startTime: "07:30", endTime: "07:55", time: "07:30 - 07:55", type: "merged", content: "Fitness Track", days: ["mon", "tue", "wed", "thu"], emptyFri: true, style: "text-slate-400 italic" },
+            { startTime: "07:35", endTime: "07:55", time: "07:35 - 07:55", type: "standard", data: { mon: "Staff Meeting", tue: "", wed: "Staff Meeting", thu: "", fri: "Staff Meeting" } },
+            { startTime: "07:55", endTime: "08:00", time: "07:55 - 08:00", type: "merged", content: "Register Class", days: ["mon", "tue", "wed", "thu", "fri"], style: "text-slate-300 font-bold" },
+            { startTime: "08:00", endTime: "09:00", time: "08:00 - 09:00", type: "standard", data: { mon: "7CC EMS", tue: "", wed: "7CW EMS", thu: "", fri: "" } },
+            { startTime: "09:00", endTime: "10:00", time: "09:00 - 10:00", type: "standard", data: { mon: "", tue: "IPLC", wed: "6RE IT", thu: "6CC IT", fri: "" } },
+            { startTime: "10:00", endTime: "10:25", time: "10:00 - 10:25", type: "standard", data: { mon: "IP BREAK", tue: "IP BREAK", wed: "IP BREAK", thu: "1MJ IT", fri: "IP BREAK" } },
+            { startTime: "10:25", endTime: "11:15", time: "10:25 - 11:15", type: "standard", data: { mon: "RLW IT", tue: "6CC IT", wed: "6RE CAT", thu: "1AZ IT", fri: "3NT IT" } },
+            { startTime: "11:15", endTime: "11:40", time: "11:15 - 11:40", type: "standard", data: { mon: "2JD IT", tue: "", wed: "7CC IT", thu: "", fri: "" } },
+            { startTime: "11:40", endTime: "12:05", time: "11:40 - 12:05", type: "standard", data: { mon: "", tue: "4WP IT", wed: "7CC IT", thu: "7CW IT", fri: "5ER IT" } },
+            { startTime: "12:05", endTime: "12:30", time: "12:05 - 12:30", type: "standard", data: { mon: "FP Duty (Megan)", tue: "4WP IT", wed: "Chapel", thu: "7CW IT", fri: "5ER IT" } },
+            { startTime: "12:30", endTime: "12:55", time: "12:30 - 12:55", type: "standard", data: { mon: "3SJ IT", tue: "IP BREAK", wed: "IP Duty (Cameron)", thu: "IP BREAK", fri: "SCHOOL ENDS" } },
+            { startTime: "12:55", endTime: "13:55", time: "12:55 - 13:55", type: "standard", data: { mon: "3SJ IT", tue: "Choir", wed: "OLC IT", thu: "", fri: "" } },
+            { startTime: "13:55", endTime: "14:25", time: "13:55 - 14:25", type: "standard", data: { mon: "5SN IT", tue: "", wed: "", thu: "", fri: "" } },
+            { startTime: "14:30", endTime: "15:15", time: "14:30 - 15:15", type: "standard", data: { mon: "EM Sport", tue: "EM Sport", wed: "Comp Club", thu: "Comp Club", fri: "" } }
+        ];
+
+        function getStartOfWeek(d) {
+            d = new Date(d);
+            const day = d.getDay(), diff = d.getDate() - day + (day === 0 ? -6 : 1);
+            return new Date(d.setDate(diff));
+        }
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-ZA', { weekday: 'long', day: 'numeric', month: 'short' });
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+            
+            // Calculate School Week (Starting from Jan 12)
+            const schoolStart = new Date("2026-01-12");
+            const diffWeeks = Math.floor((getStartOfWeek(now) - getStartOfWeek(schoolStart)) / (1000 * 60 * 60 * 24 * 7)) + 1;
+            document.getElementById('school-week').textContent = diffWeeks > 0 ? `Term 1 - Week ${diffWeeks}` : "Pre-Term";
+
+            renderAgenda(now);
+            highlightCells(now);
+        }
+
+        function renderAgenda(now) {
+            const calView = document.getElementById('calendar-view');
+            const startOfThisWeek = getStartOfWeek(now);
+            const startOfNextWeek = new Date(startOfThisWeek);
+            startOfNextWeek.setDate(startOfNextWeek.getDate() + 7);
+            const endOfNextWeek = new Date(startOfNextWeek);
+            endOfNextWeek.setDate(endOfNextWeek.getDate() + 7);
+
+            // Filter for current and next week
+            const filtered = schoolEvents.filter(e => {
+                const eDate = new Date(e.date);
+                return eDate >= startOfThisWeek && eDate < endOfNextWeek;
+            }).sort((a,b) => new Date(a.date) - new Date(b.date));
+
+            calView.innerHTML = filtered.length > 0 ? filtered.map(item => `
+                <div class="mb-3 border-l-2 border-slate-700 pl-2">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[9px] font-bold text-cyan-400 uppercase">${new Date(item.date).toLocaleDateString('en-ZA', {day:'numeric', month:'short'})}</span>
+                        <span class="text-[8px] opacity-40 uppercase">${item.type}</span>
+                    </div>
+                    <p class="text-slate-200 leading-tight">${item.event}</p>
+                </div>
+            `).join('') : '<p class="text-slate-500 italic">No events found for this fortnight.</p>';
+        }
+
+        function highlightCells(now) {
+            const currentDay = now.getDay();
+            if (currentDay === 0 || currentDay === 6) return;
+            const currentDayKey = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'][currentDay];
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+            document.querySelectorAll('.grid-cell').forEach(c => c.classList.remove('active-cell'));
+
+            segments.forEach((seg, idx) => {
+                const [h1, m1] = seg.startTime.split(':').map(Number);
+                const [h2, m2] = seg.endTime.split(':').map(Number);
+                const start = h1 * 60 + m1;
+                const end = h2 * 60 + m2;
+
+                if (currentMinutes >= start && currentMinutes < end) {
+                    const selector = `[data-row="${idx}"][data-day="${currentDayKey}"]`;
+                    const cell = document.querySelector(selector) || document.querySelector(`[data-row="${idx}"][data-day="all"]`);
+                    if (cell) cell.classList.add('active-cell');
+                }
+            });
+        }
+
+        function initTimetable() {
+            const container = document.getElementById('timetable-container');
+            segments.forEach((seg, rowIndex) => {
+                const timeCell = document.createElement('div');
+                timeCell.className = 'grid-cell time-cell';
+                timeCell.textContent = seg.time;
+                container.appendChild(timeCell);
+
+                if (seg.type === "merged") {
+                    const merged = document.createElement('div');
+                    merged.className = `grid-cell col-span-${seg.days.length} ${seg.style || ''}`;
+                    merged.dataset.row = rowIndex;
+                    merged.dataset.day = 'all';
+                    merged.textContent = seg.content;
+                    container.appendChild(merged);
+                    if (seg.emptyFri) {
+                        const empty = document.createElement('div');
+                        empty.className = 'grid-cell';
+                        empty.dataset.day = 'fri';
+                        container.appendChild(empty);
+                    }
+                } else {
+                    ['mon', 'tue', 'wed', 'thu', 'fri'].forEach(day => {
+                        const cell = document.createElement('div');
+                        let content = seg.data[day] || '';
+                        let cls = 'grid-cell ';
+
+                        if (content.includes("BREAK") || content.includes("Duty")) cls += 'break-cell-style ';
+                        if (content.includes("7CC") || content.includes("7CW")) cls += 'class-grade-7 ';
+                        if (content.includes("6CC") || content.includes("6RE")) cls += 'class-grade-6 ';
+                        if (content.includes("5SN") || content.includes("5ER")) cls += 'class-grade-5 ';
+                        if (content.includes("4WP")) cls += 'class-grade-4 ';
+                        if (content.includes("3SJ") || content.includes("3NT")) cls += 'class-grade-3 ';
+                        if (content.includes("2JD")) cls += 'class-grade-2 ';
+                        if (content.includes("1MJ") || content.includes("1AZ")) cls += 'class-grade-1 ';
+                        if (content.includes("RLW")) cls += 'class-grade-r ';
+                        if (content.includes("IPLC")) cls += 'class-grade-iplc ';
+
+                        cell.className = cls;
+                        cell.dataset.row = rowIndex;
+                        cell.dataset.day = day;
+                        cell.textContent = content;
+                        container.appendChild(cell);
+                    });
+                }
+            });
+            updateClock();
+        }
+
+        setInterval(updateClock, 1000);
+        window.onload = initTimetable;
+    </script>
+</body>
+</html>

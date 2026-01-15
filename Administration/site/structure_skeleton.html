@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>St. George's Grammar School | Live Timetable 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --neon-blue: #00d4ff;
+            --neon-purple: #bd00ff;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            /* Grade Colors */
+            --grade-7: #f87171; /* Red-400 */
+            --grade-r: #fbbf24; /* Amber-400 */
+            --grade-1: #fb923c; /* Orange-400 */
+            --grade-2: #4ade80; /* Green-400 */
+            --grade-3: #60a5fa; /* Blue-400 */
+            --grade-5: #a78bfa; /* Violet-400 */
+            --grade-6: #2dd4bf; /* Teal-400 */
+            --grade-4: #fb7185; /* Rose-400 */
+            --grade-iplc: #e879f9; /* Fuchsia-400 */
+            --grade-olc: #94a3b8; /* Slate-400 */
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: #f8fafc;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        .neon-text {
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
+        }
+
+        .neon-purple-glow {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(189, 0, 255, 0.8), 0 0 20px rgba(189, 0, 255, 0.4);
+        }
+
+        .neon-purple-border {
+            border: 1px solid var(--neon-purple) !important;
+            box-shadow: inset 0 0 8px rgba(189, 0, 255, 0.4), 0 0 8px rgba(189, 0, 255, 0.4);
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .timetable-grid {
+            display: grid;
+            grid-template-columns: 130px repeat(5, 1fr);
+            gap: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            height: 100%; 
+            grid-template-rows: auto repeat(19, 1fr); 
+        }
+
+        .grid-header {
+            background: var(--card-bg);
+            padding: 0.5rem;
+            text-align: center;
+            font-weight: 600;
+            color: var(--neon-blue);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .grid-cell {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 0.2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.85rem; 
+            min-height: 0; 
+            position: relative;
+        }
+
+        .active-cell {
+            background: rgba(0, 212, 255, 0.15) !important;
+            box-shadow: inset 0 0 15px rgba(0, 212, 255, 0.2);
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            z-index: 10;
+        }
+
+        .active-cell::after {
+            content: "NOW";
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            font-size: 8px;
+            font-weight: 800;
+            color: var(--neon-blue);
+            letter-spacing: 0.05em;
+        }
+
+        .time-cell {
+            font-weight: 600;
+            padding: 0 0.4rem !important;
+        }
+
+        .col-span-4 { grid-column: span 4 / span 4; }
+
+        /* Grade Classes */
+        .class-grade-7 { color: var(--grade-7); font-weight: bold; border-left: 2px solid var(--grade-7); }
+        .class-grade-r { color: var(--grade-r); font-weight: bold; border-left: 2px solid var(--grade-r); }
+        .class-grade-1 { color: var(--grade-1); font-weight: bold; border-left: 2px solid var(--grade-1); }
+        .class-grade-2 { color: var(--grade-2); font-weight: bold; border-left: 2px solid var(--grade-2); }
+        .class-grade-3 { color: var(--grade-3); font-weight: bold; border-left: 2px solid var(--grade-3); }
+        .class-grade-4 { color: var(--grade-4); font-weight: bold; border-left: 2px solid var(--grade-4); }
+        .class-grade-5 { color: var(--grade-5); font-weight: bold; border-left: 2px solid var(--grade-5); }
+        .class-grade-6 { color: var(--grade-6); font-weight: bold; border-left: 2px solid var(--grade-6); }
+        .class-grade-iplc { color: var(--grade-iplc); font-weight: bold; border-left: 2px solid var(--grade-iplc); }
+        .class-grade-olc { color: var(--grade-olc); font-weight: bold; border-left: 2px solid var(--grade-olc); }
+
+        .break-cell-style {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(189, 0, 255, 0.8), 0 0 20px rgba(189, 0, 255, 0.4);
+            border: 1px solid var(--neon-purple) !important;
+            box-shadow: inset 0 0 8px rgba(189, 0, 255, 0.4), 0 0 8px rgba(189, 0, 255, 0.4);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .side-panel {
+            width: 300px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100vh;
+        }
+
+        .main-content {
+            flex: 1;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #notification-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .overlay-card {
+            background: var(--card-bg);
+            border: 2px solid var(--neon-blue);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+            max-width: 400px;
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="flex">
+
+    <div id="notification-overlay">
+        <div class="overlay-card">
+            <div class="mb-4 flex justify-center">
+                <div class="h-16 w-16 bg-blue-500/20 rounded-full flex items-center justify-center animate-pulse">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+            </div>
+            <h2 class="text-2xl font-bold mb-2">Session Ending Soon</h2>
+            <p class="text-slate-400 mb-8 leading-relaxed">Time to start packing up. Your next session will begin in 5 minutes.</p>
+            <button id="dismiss-overlay" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 px-6 rounded-lg transition-colors border-b-4 border-cyan-800 active:border-b-0 uppercase tracking-widest text-sm">
+                Dismiss
+            </button>
+        </div>
+    </div>
+
+    <aside class="side-panel glass-panel p-6 flex flex-col gap-4 flex-shrink-0">
+        <div class="brand">
+            <h1 class="text-2xl font-extrabold tracking-tight leading-tight">
+                ST. GEORGE'S<br>
+                <span class="neon-text">GRAMMAR</span>
+            </h1>
+            <p class="text-[10px] text-slate-500 mt-1 uppercase tracking-[0.2em]">Virtute et Valore • Est. 1848</p>
+        </div>
+
+        <div class="live-info space-y-1 py-4 border-y border-slate-800">
+            <p id="current-date" class="text-xs font-medium neon-text uppercase tracking-widest"></p>
+            <p id="current-time" class="text-4xl font-mono font-bold"></p>
+            <div class="mt-2 flex items-center gap-2">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                <span class="text-[10px] text-green-400 font-mono tracking-tighter uppercase">Live System Active</span>
+            </div>
+        </div>
+
+        <div class="teacher-info space-y-2">
+            <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Educator Profile</h3>
+            <div class="space-y-0.5">
+                <p class="text-base font-bold text-slate-200">Mr. Y. Wilsch</p>
+                <p class="text-[12px] text-slate-400 leading-snug">
+                    IT Specialist Educator (Gr R - 7)<br>
+                    Grade 7 EMS Teacher
+                </p>
+            </div>
+        </div>
+
+        <div class="notes-section flex-1 overflow-hidden flex flex-col">
+            <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Daily Notes</h3>
+            <div class="bg-slate-900/50 rounded-lg p-3 text-[13px] text-slate-300 italic flex-1 overflow-hidden border border-slate-800/50">
+                <p id="live-status">System initializing...</p>
+            </div>
+        </div>
+
+        <div class="contact-mini text-[10px] text-slate-500 space-y-2 border-t border-slate-800 pt-3">
+            <div>
+                <p>?? Richmond Road, Mowbray, 7700</p>
+                <p>?? (021) 689 9354</p>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="py-3 px-8 border-b border-slate-800 flex justify-between items-center bg-slate-900/30">
+            <div class="flex items-center gap-4">
+                <h2 class="text-lg font-bold italic">Academic Timetable <span class="text-slate-500">2026</span></h2>
+            </div>
+        </header>
+
+        <div class="flex-1 p-4 overflow-hidden">
+            <div class="rounded-xl overflow-hidden border border-slate-700 shadow-2xl h-full">
+                <div class="timetable-grid" id="timetable-container">
+                    <!-- Header Row -->
+                    <div class="grid-header">TIME</div>
+                    <div class="grid-header" data-day="1">MONDAY</div>
+                    <div class="grid-header" data-day="2">TUESDAY</div>
+                    <div class="grid-header" data-day="3">WEDNESDAY</div>
+                    <div class="grid-header" data-day="4">THURSDAY</div>
+                    <div class="grid-header" data-day="5">FRIDAY</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const segments = [
+            { startTime: "07:30", endTime: "07:55", time: "07:30 - 07:55", type: "merged", content: "Fitness Track", days: ["mon", "tue", "wed", "thu"], emptyFri: true, style: "text-slate-400 italic uppercase tracking-tighter" },
+            { startTime: "07:35", endTime: "07:55", time: "07:35 - 07:55", type: "standard", data: { mon: "Staff Meeting", tue: "", wed: "Staff Meeting", thu: "", fri: "Staff Meeting" }, meeting: true },
+            { startTime: "07:55", endTime: "08:00", time: "07:55 - 08:00", type: "merged", content: "Register Class", days: ["mon", "tue", "wed", "thu", "fri"], style: "text-slate-300 font-semibold uppercase tracking-tighter" },
+            { startTime: "08:00", endTime: "08:30", time: "08:00 - 08:30", type: "standard", data: { mon: "7CC EMS", tue: "—", wed: "7CW EMS", thu: "—", fri: "—" } },
+            { startTime: "08:30", endTime: "09:00", time: "08:30 - 09:00", type: "standard", data: { mon: "7CC EMS", tue: "—", wed: "7CW EMS", thu: "—", fri: "—" } },
+            { startTime: "09:00", endTime: "09:30", time: "09:00 - 09:30", type: "standard", data: { mon: "—", tue: "IPLC", wed: "6RE IT", thu: "6NT IT", fri: "—" } },
+            { startTime: "09:30", endTime: "10:00", time: "09:30 - 10:00", type: "standard", data: { mon: "—", tue: "IPLC", wed: "6RE IT", thu: "6NT IT", fri: "—" } },
+            { startTime: "10:00", endTime: "10:25", time: "10:00 - 10:25", type: "standard", data: { mon: "IP BREAK", tue: "IP BREAK", wed: "IP BREAK", thu: "1MJ IT", fri: "IP BREAK" }, isBreak: false },
+            { startTime: "10:25", endTime: "10:50", time: "10:25 - 10:50", type: "standard", data: { mon: "RLW IT", tue: "6NT IT", wed: "6RE CAT", thu: "—", fri: "3NT IT" }, isSpecial: true },
+            { startTime: "10:50", endTime: "11:15", time: "10:50 - 11:15", type: "standard", data: { mon: "—", tue: "6NT IT", wed: "6RE CAT", thu: "1AZ IT", fri: "3NT IT" } },
+            { startTime: "11:15", endTime: "11:40", time: "11:15 - 11:40", type: "standard", data: { mon: "2JD IT", tue: "—", wed: "7CC IT", thu: "—", fri: "—" } },
+            { startTime: "11:40", endTime: "12:05", time: "11:40 - 12:05", type: "standard", data: { mon: "—", tue: "4WP IT", wed: "7CC IT", thu: "7CW IT", fri: "5ER IT" } },
+            { startTime: "12:05", endTime: "12:30", time: "12:05 - 12:30", type: "standard", data: { mon: "FP Break Duty (Megan)", tue: "4WP IT", wed: "Chapel", thu: "7CW IT", fri: "5ER IT" }, isSpecial: true },
+            { startTime: "12:30", endTime: "12:55", time: "12:30 - 12:55", type: "standard", data: { mon: "3SJ IT", tue: "IP BREAK", wed: "IP Break Duty (Cameron)", thu: "IP BREAK", fri: "SCHOOL ENDS" }, isBreakMon: true },
+            { startTime: "12:55", endTime: "13:25", time: "12:55 - 13:25", type: "standard", data: { mon: "3SJ IT", tue: "Choir", wed: "OLC IT", thu: "—", fri: "" }, isSpecial: true },
+            { startTime: "13:25", endTime: "13:55", time: "13:25 - 13:55", type: "standard", data: { mon: "5SN IT", tue: "—", thu: "—", wed: "—", fri: "" } },
+            { startTime: "13:55", endTime: "14:25", time: "13:55 - 14:25", type: "standard", data: { mon: "5SN IT", tue: "—", thu: "—", wed: "—", fri: "" } },
+            { startTime: "14:25", endTime: "14:30", time: "14:25 - 14:30", type: "standard", data: { mon: "SCHOOL ENDS", tue: "SCHOOL ENDS", wed: "FP Computer Club", thu: "FP Computer Club", fri: "" }, schoolEndIP: true },
+            { startTime: "14:30", endTime: "15:15", time: "14:30 - 15:15", type: "standard", data: { mon: "EXTRA-MURALS", tue: "EXTRA-MURALS", wed: "IP Computer Club", thu: "IP Computer Club", fri: "" }, isClubSlot: true }
+        ];
+
+        let warningDismissedFor = null; 
+
+        function updateClock() {
+            const now = new Date();
+            const dateOptions = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-ZA', dateOptions);
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('en-ZA', timeOptions);
+            highlightAndCheckWarning(now);
+        }
+
+        function highlightAndCheckWarning(now) {
+            const currentDay = now.getDay(); 
+            if (currentDay === 0 || currentDay === 6) {
+                document.getElementById('live-status').textContent = "Weekend: System in Standby.";
+                return;
+            }
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+            const dayKeys = [null, 'mon', 'tue', 'wed', 'thu', 'fri'];
+            const currentDayKey = dayKeys[currentDay];
+            let activeFound = false;
+            let currentSessionEnd = null;
+            document.querySelectorAll('.grid-cell').forEach(cell => cell.classList.remove('active-cell'));
+
+            for (let i = 0; i < segments.length; i++) {
+                const seg = segments[i];
+                const [sH, sM] = seg.startTime.split(':').map(Number);
+                const [eH, eM] = seg.endTime.split(':').map(Number);
+                const startTotal = sH * 60 + sM;
+                const endTotal = eH * 60 + eM;
+
+                if (currentMinutes >= startTotal && currentMinutes < endTotal) {
+                    activeFound = true;
+                    const rowCells = document.querySelectorAll(`[data-row="${i}"]`);
+                    rowCells.forEach(cell => {
+                        if (cell.dataset.day === currentDayKey || cell.dataset.day === 'all') {
+                            cell.classList.add('active-cell');
+                            let content = cell.innerText.replace("NOW", "").trim();
+                            document.getElementById('live-status').textContent = `Currently: ${content || 'Transition'}`;
+                            let lastIndex = i;
+                            for (let j = i + 1; j < segments.length; j++) {
+                                const nextSeg = segments[j];
+                                let nextContent = nextSeg.type === "merged" ? nextSeg.content : nextSeg.data[currentDayKey];
+                                if (nextContent && nextContent.trim() === content && content !== "—" && content !== "") lastIndex = j;
+                                else break;
+                            }
+                            const [seH, seM] = segments[lastIndex].endTime.split(':').map(Number);
+                            currentSessionEnd = seH * 60 + seM;
+                        }
+                    });
+                    break; 
+                }
+            }
+
+            if (currentSessionEnd && (currentSessionEnd - currentMinutes) <= 5 && (currentSessionEnd - currentMinutes) > 0) {
+                if (warningDismissedFor !== currentSessionEnd) document.getElementById('notification-overlay').style.display = 'flex';
+            } else {
+                document.getElementById('notification-overlay').style.display = 'none';
+                if (currentSessionEnd && (currentSessionEnd - currentMinutes) <= 0) warningDismissedFor = null;
+            }
+
+            if (!activeFound) document.getElementById('live-status').textContent = "School Day Over / Pre-start.";
+        }
+
+        function initTimetable() {
+            const container = document.getElementById('timetable-container');
+            segments.forEach((seg, rowIndex) => {
+                const timeCell = document.createElement('div');
+                timeCell.className = 'grid-cell time-cell flex items-center justify-center font-mono text-slate-400 bg-slate-900/50 border-r border-slate-800';
+                timeCell.textContent = seg.time;
+                container.appendChild(timeCell);
+
+                if (seg.type === "merged") {
+                    const mergedCell = document.createElement('div');
+                    mergedCell.className = `grid-cell col-span-${seg.days.length} ${seg.style || ''}`;
+                    mergedCell.dataset.row = rowIndex;
+                    mergedCell.dataset.day = 'all'; 
+                    mergedCell.innerHTML = `<span>${seg.content}</span>`;
+                    container.appendChild(mergedCell);
+                    if (seg.emptyFri) {
+                        const emptyCell = document.createElement('div');
+                        emptyCell.className = 'grid-cell text-slate-700 italic';
+                        emptyCell.dataset.row = rowIndex;
+                        emptyCell.dataset.day = 'fri';
+                        emptyCell.innerHTML = `<span>—</span>`;
+                        container.appendChild(emptyCell);
+                    }
+                } else {
+                    ['mon', 'tue', 'wed', 'thu', 'fri'].forEach(dayKey => {
+                        const dayCell = document.createElement('div');
+                        let content = seg.data[dayKey] || (dayKey === 'fri' ? '' : '—');
+                        let cellClass = 'grid-cell ';
+                        
+                        if (content.toUpperCase().includes("BREAK") && !content.includes("1MJ") && !content.includes("1AZ")) {
+                            cellClass += 'break-cell-style ';
+                        } else {
+                            if (content.includes("7CC") || content.includes("7CW")) cellClass += 'class-grade-7 ';
+                            if (content.includes("RLW")) cellClass += 'class-grade-r ';
+                            if (content.includes("1MJ") || content.includes("1AZ")) cellClass += 'class-grade-1 ';
+                            if (content.includes("2JD")) cellClass += 'class-grade-2 ';
+                            if (content.includes("3SJ") || content.includes("3NT")) cellClass += 'class-grade-3 ';
+                            if (content.includes("4WP")) cellClass += 'class-grade-4 ';
+                            if (content.includes("5SN") || content.includes("5ER")) cellClass += 'class-grade-5 ';
+                            if (content.includes("6NT") || content.includes("6RE")) cellClass += 'class-grade-6 ';
+                            if (content.includes("IPLC")) cellClass += 'class-grade-iplc ';
+                            if (content.includes("OLC")) cellClass += 'class-grade-olc ';
+
+                            if (seg.meeting && content === "Staff Meeting") {
+                                cellClass += 'neon-purple-glow neon-purple-border font-bold uppercase tracking-tighter';
+                            } else if (seg.isSpecial && (content === "Choir" || content === "Chapel" || content === "Shared Reading" || content === "OLC IT")) {
+                                cellClass += 'neon-text font-bold uppercase border border-cyan-500/30';
+                            } else if (seg.schoolEndIP && (content === "SCHOOL ENDS" || content.includes("Computer Club"))) {
+                                cellClass += content.includes("Computer Club") ? 'neon-text font-bold uppercase' : 'text-slate-500 font-bold uppercase';
+                            } else if (seg.isClubSlot && content === "IP Computer Club") {
+                                cellClass += 'neon-text font-bold uppercase';
+                            } else if (!["7C", "RLW", "1MJ", "1AZ", "2JD", "3SJ", "4WP", "5SN", "6N", "6R", "IPLC", "OLC", "3NT", "5ER"].some(g => content.includes(g))) {
+                                cellClass += (content === '—' || content === '') ? 'text-slate-700 italic' : 'text-slate-300';
+                            }
+                        }
+                        
+                        dayCell.className = cellClass;
+                        dayCell.dataset.row = rowIndex;
+                        dayCell.dataset.day = dayKey;
+                        dayCell.innerHTML = `<span>${content}</span>`;
+                        container.appendChild(dayCell);
+                    });
+                }
+            });
+
+            document.getElementById('dismiss-overlay').addEventListener('click', () => {
+                const active = document.querySelector('.active-cell');
+                if (active) {
+                    const rowIdx = parseInt(active.dataset.row);
+                    const [seH, seM] = segments[rowIdx].endTime.split(':').map(Number);
+                    warningDismissedFor = seH * 60 + seM;
+                }
+                document.getElementById('notification-overlay').style.display = 'none';
+            });
+            updateClock();
+        }
+
+        setInterval(updateClock, 1000);
+        window.onload = initTimetable;
+    </script>
+</body>
+</html>

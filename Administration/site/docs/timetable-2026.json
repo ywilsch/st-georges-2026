@@ -1,138 +1,21 @@
 [
-  {
-    "startTime": "07:30",
-    "endTime": "07:55",
-    "time": "07:30 - 07:55",
-    "type": "merged",
-    "content": "Fitness Track",
-    "days": ["mon","tue","wed","thu"],
-    "emptyFri": true,
-    "style": "text-slate-400 italic uppercase tracking-tighter"
-  },
-  {
-    "startTime": "07:55",
-    "endTime": "08:15",
-    "time": "07:55 - 08:15",
-    "type": "standard",
-    "data": { "mon":"Staff Meeting","tue":"ICT Prep","wed":"Staff Meeting","thu":"ICT Prep","fri":"Staff Meeting" }
-  },
-  {
-    "startTime": "08:15",
-    "endTime": "08:35",
-    "time": "08:15 - 08:35",
-    "type": "standard",
-    "data": { "mon":"Grade 7 EMS","tue":"Grade 7 EMS","wed":"Grade 7 EMS","thu":"Grade 7 EMS","fri":"Grade 7 EMS" }
-  },
-  {
-    "startTime": "08:35",
-    "endTime": "08:55",
-    "time": "08:35 - 08:55",
-    "type": "standard",
-    "data": { "mon":"Grade R Literacy","tue":"Grade R Literacy","wed":"Grade R Literacy","thu":"Grade R Literacy","fri":"Grade R Literacy" }
-  },
-  {
-    "startTime": "08:55",
-    "endTime": "09:15",
-    "time": "08:55 - 09:15",
-    "type": "standard",
-    "data": { "mon":"Grade 1 Numeracy","tue":"Grade 1 Numeracy","wed":"Grade 1 Numeracy","thu":"Grade 1 Numeracy","fri":"Grade 1 Numeracy" }
-  },
-  {
-    "startTime": "09:15",
-    "endTime": "09:35",
-    "time": "09:15 - 09:35",
-    "type": "standard",
-    "data": { "mon":"Grade 2 Mathematics","tue":"Grade 2 Mathematics","wed":"Grade 2 Mathematics","thu":"Grade 2 Mathematics","fri":"Grade 2 Mathematics" }
-  },
-  {
-    "startTime": "09:35",
-    "endTime": "09:55",
-    "time": "09:35 - 09:55",
-    "type": "break",
-    "data": { "mon":"BREAK","tue":"BREAK","wed":"BREAK","thu":"BREAK","fri":"BREAK" }
-  },
-  {
-    "startTime": "09:55",
-    "endTime": "10:15",
-    "time": "09:55 - 10:15",
-    "type": "standard",
-    "data": { "mon":"Grade 3 Science","tue":"Grade 3 Science","wed":"Grade 3 Science","thu":"Grade 3 Science","fri":"Grade 3 Science" }
-  },
-  {
-    "startTime": "10:15",
-    "endTime": "10:35",
-    "time": "10:15 - 10:35",
-    "type": "standard",
-    "data": { "mon":"Grade 4 Social","tue":"Grade 4 Social","wed":"Grade 4 Social","thu":"Grade 4 Social","fri":"Grade 4 Social" }
-  },
-  {
-    "startTime": "10:35",
-    "endTime": "10:55",
-    "time": "10:35 - 10:55",
-    "type": "standard",
-    "data": { "mon":"Grade 5 EMS","tue":"Grade 5 EMS","wed":"Grade 5 EMS","thu":"Grade 5 EMS","fri":"Grade 5 EMS" }
-  },
-  {
-    "startTime": "10:55",
-    "endTime": "11:15",
-    "time": "10:55 - 11:15",
-    "type": "standard",
-    "data": { "mon":"Grade 6 Arts","tue":"Grade 6 Arts","wed":"Grade 6 Arts","thu":"Grade 6 Arts","fri":"Grade 6 Arts" }
-  },
-  {
-    "startTime": "11:15",
-    "endTime": "11:35",
-    "time": "11:15 - 11:35",
-    "type": "standard",
-    "data": { "mon":"IPLC Reading","tue":"IPLC Reading","wed":"IPLC Reading","thu":"IPLC Reading","fri":"IPLC Reading" }
-  },
-  {
-    "startTime": "11:35",
-    "endTime": "11:55",
-    "time": "11:35 - 11:55",
-    "type": "standard",
-    "data": { "mon":"OLC Math","tue":"OLC Math","wed":"OLC Math","thu":"OLC Math","fri":"OLC Math" }
-  },
-  {
-    "startTime": "11:55",
-    "endTime": "12:15",
-    "time": "11:55 - 12:15",
-    "type": "break",
-    "data": { "mon":"SNACK BREAK","tue":"SNACK BREAK","wed":"SNACK BREAK","thu":"SNACK BREAK","fri":"SNACK BREAK" }
-  },
-  {
-    "startTime": "12:15",
-    "endTime": "12:35",
-    "time": "12:15 - 12:35",
-    "type": "standard",
-    "data": { "mon":"Grade 1 EMS","tue":"Grade 1 EMS","wed":"Grade 1 EMS","thu":"Grade 1 EMS","fri":"Grade 1 EMS" }
-  },
-  {
-    "startTime": "12:35",
-    "endTime": "12:55",
-    "time": "12:35 - 12:55",
-    "type": "standard",
-    "data": { "mon":"Grade 2 Arts","tue":"Grade 2 Arts","wed":"Grade 2 Arts","thu":"Grade 2 Arts","fri":"Grade 2 Arts" }
-  },
-  {
-    "startTime": "12:55",
-    "endTime": "13:15",
-    "time": "12:55 - 13:15",
-    "type": "standard",
-    "data": { "mon":"Grade 3 Maths","tue":"Grade 3 Maths","wed":"Grade 3 Maths","thu":"Grade 3 Maths","fri":"Grade 3 Maths" }
-  },
-  {
-    "startTime": "13:15",
-    "endTime": "13:35",
-    "time": "13:15 - 13:35",
-    "type": "standard",
-    "data": { "mon":"Grade 4 Science","tue":"Grade 4 Science","wed":"Grade 4 Science","thu":"Grade 4 Science","fri":"Grade 4 Science" }
-  },
-  {
-    "startTime": "13:35",
-    "endTime": "13:55",
-    "time": "13:35 - 13:55",
-    "type": "break",
-    "data": { "mon":"AFTERNOON BREAK","tue":"AFTERNOON BREAK","wed":"AFTERNOON BREAK","thu":"AFTERNOON BREAK","fri":"AFTERNOON BREAK" }
-  }
+  { "startTime": "07:30", "endTime": "07:55", "time": "07:30 - 07:55", "type": "merged", "content": "Fitness Track", "days": ["mon","tue","wed","thu"], "emptyFri": true, "style": "text-slate-400 italic uppercase tracking-tighter" },
+  { "startTime": "07:35", "endTime": "07:55", "time": "07:35 - 07:55", "type": "standard", "data": { "mon": "Staff Meeting", "tue": "", "wed": "Staff Meeting", "thu": "", "fri": "Staff Meeting" }, "meeting": true },
+  { "startTime": "07:55", "endTime": "08:00", "time": "07:55 - 08:00", "type": "merged", "content": "Register Class", "days": ["mon","tue","wed","thu","fri"], "style": "text-slate-300 font-semibold uppercase tracking-tighter" },
+  { "startTime": "08:00", "endTime": "08:30", "time": "08:00 - 08:30", "type": "standard", "data": { "mon": "7CC EMS", "tue": "", "wed": "7CW EMS", "thu": "", "fri": "" } },
+  { "startTime": "08:30", "endTime": "09:00", "time": "08:30 - 09:00", "type": "standard", "data": { "mon": "7CC EMS", "tue": "", "wed": "7CW EMS", "thu": "", "fri": "" } },
+  { "startTime": "09:00", "endTime": "09:30", "time": "09:00 - 09:30", "type": "standard", "data": { "mon": "", "tue": "IPLC", "wed": "6RE IT", "thu": "6NT IT", "fri": "" } },
+  { "startTime": "09:30", "endTime": "10:00", "time": "09:30 - 10:00", "type": "standard", "data": { "mon": "", "tue": "IPLC", "wed": "6RE IT", "thu": "6NT IT", "fri": "" } },
+  { "startTime": "10:00", "endTime": "10:25", "time": "10:00 - 10:25", "type": "standard", "data": { "mon": "IP BREAK", "tue": "IP BREAK", "wed": "IP BREAK", "thu": "1MJ IT", "fri": "IP BREAK" } },
+  { "startTime": "10:25", "endTime": "10:50", "time": "10:25 - 10:50", "type": "standard", "data": { "mon": "RLW IT", "tue": "6NT IT", "wed": "6RE CAT", "thu": "", "fri": "3NT IT" }, "isSpecial": true },
+  { "startTime": "10:50", "endTime": "11:15", "time": "10:50 - 11:15", "type": "standard", "data": { "mon": "", "tue": "6NT IT", "wed": "6RE CAT", "thu": "1AZ IT", "fri": "3NT IT" } },
+  { "startTime": "11:15", "endTime": "11:40", "time": "11:15 - 11:40", "type": "standard", "data": { "mon": "2JD IT", "tue": "", "wed": "7CC IT", "thu": "", "fri": "" } },
+  { "startTime": "11:40", "endTime": "12:05", "time": "11:40 - 12:05", "type": "standard", "data": { "mon": "", "tue": "4WP IT", "wed": "7CC IT", "thu": "7CW IT", "fri": "5ER IT" } },
+  { "startTime": "12:05", "endTime": "12:30", "time": "12:05 - 12:30", "type": "standard", "data": { "mon": "FP Break Duty (Megan)", "tue": "4WP IT", "wed": "Chapel", "thu": "7CW IT", "fri": "5ER IT" }, "isSpecial": true },
+  { "startTime": "12:30", "endTime": "12:55", "time": "12:30 - 12:55", "type": "standard", "data": { "mon": "3SJ IT", "tue": "IP BREAK", "wed": "IP Break Duty (Cameron)", "thu": "IP BREAK", "fri": "SCHOOL ENDS" } },
+  { "startTime": "12:55", "endTime": "13:25", "time": "12:55 - 13:25", "type": "standard", "data": { "mon": "3SJ IT", "tue": "Choir", "wed": "OLC IT", "thu": "", "fri": "" }, "isSpecial": true },
+  { "startTime": "13:25", "endTime": "13:55", "time": "13:25 - 13:55", "type": "standard", "data": { "mon": "5SN IT", "tue": "", "wed": "", "thu": "", "fri": "" } },
+  { "startTime": "13:55", "endTime": "14:25", "time": "13:55 - 14:25", "type": "standard", "data": { "mon": "5SN IT", "tue": "", "wed": "", "thu": "", "fri": "" } },
+  { "startTime": "14:25", "endTime": "14:30", "time": "14:25 - 14:30", "type": "standard", "data": { "mon": "SCHOOL ENDS", "tue": "SCHOOL ENDS", "wed": "FP Computer Club", "thu": "FP Computer Club", "fri": "" }, "schoolEndIP": true },
+  { "startTime": "14:30", "endTime": "15:15", "time": "14:30 - 15:15", "type": "standard", "data": { "mon": "EXTRA-MURALS", "tue": "EXTRA-MURALS", "wed": "IP Computer Club", "thu": "IP Computer Club", "fri": "" }, "isClubSlot": true }
 ]
